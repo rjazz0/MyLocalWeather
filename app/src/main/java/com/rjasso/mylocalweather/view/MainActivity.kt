@@ -1,7 +1,8 @@
-package com.rjasso.mylocalweather
+package com.rjasso.mylocalweather.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.rjasso.mylocalweather.R
 
 class MainActivity : AppCompatActivity() {
 
