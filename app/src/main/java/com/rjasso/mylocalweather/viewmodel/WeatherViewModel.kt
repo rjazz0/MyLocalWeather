@@ -1,40 +1,24 @@
 package com.rjasso.mylocalweather.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rjasso.mylocalweather.model.Location
 import com.rjasso.mylocalweather.model.Repository
-import com.rjasso.mylocalweather.model.WeatherAPI
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.rjasso.mylocalweather.model.WeatherRoom
 
-class WeatherViewModel(val repository: Repository): ViewModel() {
+class WeatherViewModel(val repository: Repository): ViewModel(), RepositoryCallback {
 
-    private val weather: MutableLiveData<WeatherAPI> = MutableLiveData()
-    private val location: MutableLiveData<Location> = MutableLiveData()
+    private val weather: MutableLiveData<WeatherRoom> = MutableLiveData()
 
-    init {
-        location.value = Location()
-    }
-
-    fun getWeather(): LiveData<WeatherAPI> {
+    fun getWeather(): LiveData<WeatherRoom> {
         return weather
     }
 
     fun loadWeather(latitude: String,longitude: String) {
-        repository.getWeather(latitude,longitude).enqueue(object : Callback<WeatherAPI> {
-            override fun onFailure(call: Call<WeatherAPI>, t: Throwable) {
-                Log.d(Repository::javaClass.toString(), t.localizedMessage.toString())
-            }
+        repository.refreshWeather(latitude,longitude, this)
+    }
 
-            override fun onResponse(call: Call<WeatherAPI>, response: Response<WeatherAPI>) {
-                weather.value = response.body()
-
-            }
-        })
-
+    override fun updateWeather(updatedWeather: WeatherRoom) {
+        weather.postValue(updatedWeather)
     }
 }

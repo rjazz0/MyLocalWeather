@@ -12,6 +12,6 @@ data class WeatherAPI(
     val sys: Sys,
     val timezone: Int,
     val visibility: Int,
-    val weather: List<Weather>,
+    val weather: List<Weather>?,
     val wind: Wind
 )

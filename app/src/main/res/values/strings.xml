@@ -2,4 +2,7 @@
     <string name="app_name">MyLocalWeather</string>
     <string name="device_location_refuse_message">Device\'s location permission is required for the app to work properly, please allow.</string>
     <string name="icon_url">http://openweathermap.org/img/wn/%1$s@2x.png</string>
+    <string name="fahrenheit">°F</string>
+    <string name="place_holder_icon">04d</string>
+    <string name="no_description">No description available</string>
 </resources>

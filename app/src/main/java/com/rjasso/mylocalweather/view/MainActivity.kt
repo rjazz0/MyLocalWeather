@@ -16,10 +16,14 @@ import androidx.lifecycle.Observer
 import coil.api.load
 import com.google.android.material.snackbar.Snackbar
 import com.rjasso.mylocalweather.*
+import com.rjasso.mylocalweather.model.Database
 import com.rjasso.mylocalweather.model.Repository
 import com.rjasso.mylocalweather.model.WeatherAPI
+import com.rjasso.mylocalweather.model.WeatherRoom
 import com.rjasso.mylocalweather.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class MainActivity : AppCompatActivity() {
     val viewModel = WeatherViewModel(Repository())
@@ -29,14 +33,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewModel.getWeather().observe(this, Observer {
-            weather: WeatherAPI ->
+            weather: WeatherRoom ->
             progressBar.visibility = View.GONE
-            nameTextView.text = weather.name
-            degreesTextView.text = Utils.convertKelvinToFahrenheit(weather.main.temp).toString()
-            Log.d("Log!!", weather.main.temp.toString())
-            weatherImageView.load(getString(R.string.icon_url, weather.weather.get(FIRST_ELEMENT).icon))
+            nameTextView.text = weather?.name
+            degreesTextView.text = Utils.convertKelvinToFahrenheit(weather.temp).toString() + getString(R.string.fahrenheit)
+            descriptionTextView.text = weather.description
+            weatherImageView.load(getString(R.string.icon_url, weather.icon))
+            GlobalScope.async {
+                viewModel.repository.db.weatherDao().insert(weather)
+            }
         })
 
+        viewModel.repository.createDatabase(applicationContext)
         prepareLocationManager()
     }
 
@@ -59,7 +67,9 @@ class MainActivity : AppCompatActivity() {
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            viewModel.loadWeather(location.latitude.toString(), location.longitude.toString())
+            GlobalScope.async {
+                viewModel.loadWeather(location.latitude.toString(), location.longitude.toString())
+            }
             progressBar.visibility = View.VISIBLE
         }
 
