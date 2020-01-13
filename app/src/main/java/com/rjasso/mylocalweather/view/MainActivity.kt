@@ -16,9 +16,7 @@ import androidx.lifecycle.Observer
 import coil.api.load
 import com.google.android.material.snackbar.Snackbar
 import com.rjasso.mylocalweather.*
-import com.rjasso.mylocalweather.model.Database
 import com.rjasso.mylocalweather.model.Repository
-import com.rjasso.mylocalweather.model.WeatherAPI
 import com.rjasso.mylocalweather.model.WeatherRoom
 import com.rjasso.mylocalweather.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.activity_main.*

@@ -14,7 +14,7 @@ class Repository {
     lateinit var db: WeatherDatabase.AppDatabase
 
     fun refreshWeather(lat: String,lon: String, callback: RepositoryCallback) {
-        // Load latest weather data locally with room
+        // Load last weather data locally with room
         val weatherRoom = db.weatherDao().getWeather()
 
         weatherRoom?.let {

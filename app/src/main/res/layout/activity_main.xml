@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/weather_background"
+    android:background="@drawable/blue_sky"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -33,7 +33,7 @@
         android:layout_margin="20dp"
         app:cardCornerRadius="4dp"
         app:cardBackgroundColor="@android:color/white"
-        android:alpha="0.7"
+        android:alpha="0.8"
         app:cardElevation="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
